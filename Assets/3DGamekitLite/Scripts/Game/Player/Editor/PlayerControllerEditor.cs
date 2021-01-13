@@ -18,6 +18,7 @@ namespace Gamekit3D
         SerializedProperty m_MaxTurnSpeedProp;
         SerializedProperty m_IdleTimeoutProp;
         SerializedProperty m_CanAttackProp;
+        SerializedProperty m_CanParryProp;
 
         SerializedProperty m_MeleeWeaponProp;
         SerializedProperty m_CameraSettingsProp;
@@ -37,6 +38,7 @@ namespace Gamekit3D
         GUIContent m_TurnSpeedContent = new GUIContent("Turn Speed", "How fast Ellen turns.  This varies depending on how fast she is moving.  When stationary the maximum will be used and when running at Max Forward Speed the minimum will be used.");
         GUIContent m_IdleTimeoutContent = new GUIContent("Idle Timeout", "How many seconds before Ellen starts considering random Idle poses.");
         GUIContent m_CanAttackContent = new GUIContent("Can Attack", "Whether or not Ellen can attack with her staff.  This can be set externally.");
+        GUIContent m_CanParryContent = new GUIContent("Can Parry", "Whether or not Ellen can parry with her staff.  This can be set externally.");
 
         GUIContent m_MeleeWeaponContent = new GUIContent("Melee Weapon", "Used for damaging enemies when Ellen swings her staff.");
         GUIContent m_CameraSettingsContent = new GUIContent("Camera Settings", "Used to get the rotation of the current camera so that Ellen faces the correct direction.  Note: This is the only reference which is not part of the Ellen prefab.  It should automatically be set to the Camera Settings script of the CameraRig gameobject when the Prefab is instantiated.");
@@ -59,6 +61,7 @@ namespace Gamekit3D
             m_MaxTurnSpeedProp = serializedObject.FindProperty("maxTurnSpeed");
             m_IdleTimeoutProp = serializedObject.FindProperty("idleTimeout");
             m_CanAttackProp = serializedObject.FindProperty("canAttack");
+            m_CanParryProp = serializedObject.FindProperty("canParry");
 
             m_MeleeWeaponProp = serializedObject.FindProperty("meleeWeapon");
             m_CameraSettingsProp = serializedObject.FindProperty("cameraSettings");
@@ -87,6 +90,7 @@ namespace Gamekit3D
 
             EditorGUILayout.PropertyField(m_IdleTimeoutProp, m_IdleTimeoutContent);
             EditorGUILayout.PropertyField(m_CanAttackProp, m_CanAttackContent);
+            EditorGUILayout.PropertyField(m_CanParryProp, m_CanParryContent);
 
             EditorGUILayout.Space();
 

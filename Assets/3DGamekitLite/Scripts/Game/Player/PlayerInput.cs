@@ -20,6 +20,7 @@ public class PlayerInput : MonoBehaviour
     protected Vector2 m_Camera;
     protected bool m_Jump;
     protected bool m_Attack;
+    protected bool m_Parry;
     protected bool m_Pause;
     protected bool m_ExternalInputBlocked;
 
@@ -53,10 +54,18 @@ public class PlayerInput : MonoBehaviour
         get { return m_Attack && !playerControllerInputBlocked && !m_ExternalInputBlocked; }
     }
 
+    public bool Parry
+    {
+        get { return m_Parry && !playerControllerInputBlocked && !m_ExternalInputBlocked; }
+    }
+
     public bool Pause
     {
         get { return m_Pause; }
     }
+
+    WaitForSeconds m_ParryInputWait;
+    Coroutine m_ParryWaitCoroutine;
 
     WaitForSeconds m_AttackInputWait;
     Coroutine m_AttackWaitCoroutine;
@@ -66,6 +75,7 @@ public class PlayerInput : MonoBehaviour
     void Awake()
     {
         m_AttackInputWait = new WaitForSeconds(k_AttackInputDuration);
+        m_ParryInputWait = new WaitForSeconds(.5f);
 
         if (s_Instance == null)
             s_Instance = this;
@@ -87,6 +97,13 @@ public class PlayerInput : MonoBehaviour
 
             m_AttackWaitCoroutine = StartCoroutine(AttackWait());
         }
+        else if (Input.GetButtonDown("Fire2"))
+        {
+            if (m_ParryWaitCoroutine != null)
+                StopCoroutine(m_ParryWaitCoroutine);
+
+            m_ParryWaitCoroutine = StartCoroutine(ParryWait());
+        }
 
         m_Pause = Input.GetButtonDown ("Pause");
     }
@@ -98,6 +115,13 @@ public class PlayerInput : MonoBehaviour
         yield return m_AttackInputWait;
 
         m_Attack = false;
+    }
+
+    IEnumerator ParryWait()
+    {
+        m_Parry = true;
+        yield return m_ParryInputWait;
+        m_Parry = false;
     }
 
     public bool HaveControl()
